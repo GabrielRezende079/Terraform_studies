@@ -1,0 +1,30 @@
+name: Workflow Example
+
+# Trigger de ativação quando tiver um pull request para a branch main
+on:
+  pull_request:
+    branches:
+      - main
+
+# Define os jobs a serem executados 
+# O nome do job é "create-s3-static-site" e ele será executado em um ambiente Ubuntu mais recente
+jobs:
+  create-s3-static-site:
+    runs-on: ubuntu-latest
+
+# Define as etapas a serem executadas no job
+    steps:
+      # A primeira etapa é fazer o checkout do repositório para que o código-fonte esteja disponível para as próximas etapas
+      -uses: actions/checkout@v3
+      # a segunda etapa é configurar o Node.js, que é necessário para executar scripts ou ferramentas baseadas em Node.js
+      -name: Using Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      -name: npm install and build
+        run: |
+          npm install
+          npm run build
+          npm run dev
+
+      
